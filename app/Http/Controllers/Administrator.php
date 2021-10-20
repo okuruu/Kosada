@@ -32,7 +32,10 @@ class Administrator extends Controller
     public function index()
     {
         return view('template/header')
-            . view('index', ["data" => AdministratorModel::all()])
+            . view('index', [
+                "data"  => AdministratorModel::all(),
+                "modal" => AdministratorModel::all()
+                ])
             . view('template/footer');
     }
 
@@ -41,6 +44,49 @@ class Administrator extends Controller
         return view('template/header')
             . view('tambahMember')
             . view('template/footer');
+    }
+
+    public function updateMember(Request $request){
+
+        $ID_UTAMA = $request->input('UTAMA');
+
+        $NAMA = $request->input('ID_1');
+        $ALAMAT = $request->input('ID_2');
+        $KOTA = $request->input('ID_3');
+        $PROVINSI = $request->input('ID_4');
+        $TELEPON = $request->input('ID_5');
+        $NO_KTP = $request->input('ID_6');
+        $PIN_ATM = $request->input('ID_7');
+        $GENDER = $request->input('ID_8');
+        $DATA_MARKETING = $request->input('ID_9');
+        $PEKERJAAN = $request->input('ID_10');
+        $REKOMENDASI_DARI = $request->input('ID_11');
+        $KETERANGAN = $request->input('ID_12');
+
+        $fillme = AdministratorModel::find($ID_UTAMA);
+        $fillme->NAMA               = $NAMA;
+        $fillme->ALAMAT             = $ALAMAT;
+        $fillme->KOTA               = $KOTA;
+        $fillme->PROVINSI           = $PROVINSI;
+        $fillme->TELEPON            = $TELEPON;
+        $fillme->KTP                = $NO_KTP;
+        $fillme->PIN_ATM            = $PIN_ATM;
+        $fillme->GENDER             = $GENDER;
+        $fillme->DATA_MARKETING     = $DATA_MARKETING;
+        $fillme->PEKERJAAN          = $PEKERJAAN;
+        $fillme->REKOMENDASI_DARI   = $REKOMENDASI_DARI;
+        $fillme->KETERANGAN         = $KETERANGAN;
+        $fillme->save();
+
+        return back()->with('updated', 'Berhasil menambahkan member!');
+    }
+
+    public function hapusMember(Request $request){
+        $ID_UTAMA = $request->input('UTAMA');
+        $fillme = AdministratorModel::find($ID_UTAMA);
+        $fillme->delete();
+        return back()->with('deleted', 'Berhasil menambahkan member!');
+
     }
 
     public function kreditNasabah()

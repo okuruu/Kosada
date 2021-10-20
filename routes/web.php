@@ -40,6 +40,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/TambahMember', [Administrator::class, 'tambahMember'])->name('tambahMember');
     Route::post('/TambahMember', [Administrator::class, 'tambahPostMember'])->name('tambahPostMember');
 
+    // Updaet Member
+    Route::post('/updateMember', [Administrator::class , 'updateMember'])->name('updateMember');
+    Route::post('/hapusMember', [Administrator::class, 'hapusMember'])->name('hapusMember');
+
     // Penambahan Data kredit
     Route::get('/TambahDataKredit', [Administrator::class, 'tambahDataKredit'])->name('tambahDataKredit');
     Route::post('/TambahDataKredit', [Administrator::class, 'postDataKredit'])->name('postDataKredit');
