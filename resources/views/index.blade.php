@@ -224,7 +224,7 @@
 
             Swal.fire({
             title: 'Sukses!',
-            text: 'Data berhasil diupdate!',
+            text: 'Data berhasil diperbarui!',
             icon: 'success',
             confirmButtonText: 'Cool'
         }).then(function() {
