@@ -190,6 +190,25 @@
 
         <!-- End Notification Success Added to Product -->
 
+        <!-- Gagal Kasbon?! -->
+
+        @if (Session::get('errs'))
+        <script>
+
+          Swal.fire({
+            title: 'Nice!',
+            text: 'Data kasbon telah ditambah!',
+            icon: 'success',
+            confirmButtonText: 'Cool'
+        }).then(function() {
+            console.log("Kasbon mulu zzz");            
+        });
+
+        </script>
+        @endif
+
+        <!-- End Notification Gagal Kasbon! -->
+
 <script>
     var namaNasabah = document.getElementById('namaNasabah');
     var alamatNasabah = document.getElementById('alamatNasabah');

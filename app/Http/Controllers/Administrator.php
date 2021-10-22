@@ -226,27 +226,43 @@ class Administrator extends Controller
 
     public function updateDetailNasabah(Request $request)
     {
-        $ID = $request->input('ID_UTAMA');
-        $KUNCI = $request->input('ID_KUNCI');
-        $DATA = $request->input('STATUS_PELUNASAN');
-        $KASBON = $request->input('KASBON');
 
-        $how_many = KreditDetailModel::where('NO_KREDIT', $ID)->count();
+        try {
 
-        for ($i = 0; $i < $how_many; $i++) {
-            $fillme = KreditDetailModel::find($KUNCI[$i]);
-            $fillme->KASBON = $KASBON[$i];
-            $fillme->LUNAS = $DATA[$i];
-            $fillme->save();
+            $ID = $request->input('ID_UTAMA');
+            $KUNCI = $request->input('ID_KUNCI');
+            $DATA = $request->input('STATUS_PELUNASAN');
+            $KASBON = $request->input('KASBON');
+            $TOTAL_KASBON = array_sum($KASBON);
+
+            $how_many = KreditDetailModel::where('NO_KREDIT', $ID)->count();
+    
+            for ($i = 0; $i < $how_many; $i++) {
+                $fillme = KreditDetailModel::find($KUNCI[$i]);
+                $fillme->KASBON = $KASBON[$i];
+                $fillme->LUNAS = $DATA[$i];
+                $fillme->save();
+            }
+
+            $kasboned = KreditModel::where('NO_KREDIT', $ID)->update([
+                "KASBON"    =>  $TOTAL_KASBON
+            ]);
+    
+            $NEW_DATA = array_count_values($DATA);
+    
+            $fillthat = KreditModel::where('NO_KREDIT' , $ID)->update([
+                "LUNAS_BRP" =>  $NEW_DATA['Sudah']
+            ]);
+    
+            return back()->with('nice', 'Berhasil merubah status!');
+
+        } catch (\Exception $e){
+
+            return back()->with('errs','Pinjaman belum lunas!');
+
         }
 
-        $NEW_DATA = array_count_values($DATA);
 
-        $fillthat = KreditModel::where('NO_KREDIT' , $ID)->update([
-            "LUNAS_BRP" =>  $NEW_DATA['Sudah']
-        ]);
-
-        return back()->with('nice', 'Berhasil merubah status!');
     }
 
     public function hapusDetailNasabah(Request $request)
